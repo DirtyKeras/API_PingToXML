@@ -13,7 +13,11 @@ csv_file_path = './files/ips.csv'
 
 # Función para hacer ping a una IP y retornar el tiempo de respuesta
 def ping_ip(ip_address):
-    return ping(ip_address)
+    response_time =  ping(ip_address)
+    if response_time > 0:
+        return "true"
+    else:
+        return "false"
 
 def is_valid_ipv4(ip):
     pattern = compile(r'^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.' 
@@ -55,8 +59,8 @@ def monitor_ips():
 
     for ip in ip_addresses:
         if is_valid_ipv4(ip):
-            response_time = ping_ip(ip)
-            ping_results[ip] = response_time if response_time is not None else 'No response'
+            ping_results[ip] = ping_ip(ip)
+            
 
     create_xml_from_results(ping_results)
 
