@@ -1,8 +1,8 @@
 import csv
 from ping3 import ping
-import xml.etree.ElementTree as ET
+from xml.etree.ElementTree import ElementTree, Element, SubElement
 from re import compile
-import time
+from time import sleep
 
 # Global variables
 #Nombre de como guarfar el xml
@@ -34,16 +34,16 @@ def read_ips_from_csv(file_path):
 # Crear el árbol XML a partir de los resultados del ping
 def create_xml_from_results(results):
     #Elemento root
-    root = ET.Element("PingResults")
+    root = Element("PingResults")
     for ip, response_time in results.items():
         # Crear un elemento para cada IP
-        ip_element = ET.SubElement(root, "IPAddress")
-        ET.SubElement(ip_element, "Address").text = ip
-        ET.SubElement(ip_element, "ResponseTime").text = str(response_time)
+        ip_element = SubElement(root, "IP_" + str(ip).replace(".", "_"))
+        SubElement(ip_element, "Address").text = ip
+        SubElement(ip_element, "ResponseTime").text = str(response_time)
     
     # Crear el árbol XML y lo guardamos
     try:
-        tree = ET.ElementTree(root)
+        tree = ElementTree(root)
         tree.write(nombre_archivo_xml)
     except():
         print("No se pudo escribir el archivo")
@@ -64,6 +64,6 @@ if __name__ == '__main__':
     try:
         while True:
             monitor_ips()
-            time.sleep(5)  # Ejecutar cada minuto
+            sleep(5)  # Ejecutar cada minuto
     except KeyboardInterrupt:
         print("Stopping monitoring...")

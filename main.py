@@ -10,8 +10,8 @@ def run_monitoring():
     os.system('python scripts/pingToAnyIP.py')
 
 if __name__ == '__main__':
-    flask_process = Process(target=run_flask)
     monitoring_process = Process(target=run_monitoring)
+    flask_process = Process(target=run_flask)
 
     flask_process.start()
     monitoring_process.start()
