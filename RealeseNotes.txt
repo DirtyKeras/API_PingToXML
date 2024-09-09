@@ -1,0 +1,9 @@
+Pendientes:
+Generar un servicio instalable para este escript
+Verificar si se puede instalar en una terminal sin tener dependencias
+
+Correcciones
+Se comprueba para un ping valido que sea un valor numerico indirectamente, 
+se captura los casos cuando la respuesta es 'None', 'False', o igual a la conversión del dato float: 0.0 a str: "0.0" 
+    Recomendación: Comprobar solo que el dato sea numérico, y ahorrar las multiples comprobaciones.
+    

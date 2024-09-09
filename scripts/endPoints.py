@@ -19,18 +19,18 @@ tiempo_espera_ping = 2.0
 # Función para hacer ping a una IP y retornar "true" o "false"
 def ping_ip(ip_address):
     response_time = ping(ip_address, timeout=tiempo_espera_ping)
-    if (response_time is None) or (response_time == False):  # Si el ping es exitoso
-        print(f"{ip_address}  :  {response_time}")
+    if (response_time is None) or (response_time == False and (str(response_time) != "0.0")):  # Si el ping es fallido
+        print(f"{ip_address}  :  FALLAAAAAAAA - {response_time}")
         return "false"
-    else:  # Si el ping falla
+    else:  # Si el ping es exitoso
         print(f"{ip_address}  :  {response_time}")
         return "true"
 
 def is_valid_ipv4(ip):
     pattern = compile(r'^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.' 
-                         r'(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.' 
-                         r'(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.' 
-                         r'(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$')
+                        r'(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.' 
+                        r'(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.' 
+                        r'(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$')
     return pattern.match(ip) is not None
 
 def read_ips_from_csv(file_path):
@@ -43,6 +43,7 @@ def read_ips_from_csv(file_path):
 
 def create_xml_from_results(results):
     root = Element("PingResults")
+    print("-----------------------------------------------")
     for ip, response_time in results.items():
         ip_element = SubElement(root, "IP_" + str(ip).replace(".", "_"))
         SubElement(ip_element, "Address").text = ip
